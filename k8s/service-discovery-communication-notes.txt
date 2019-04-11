@@ -1,0 +1,19 @@
+DNS (kubernetes service): 
+10.96.0.10 -->load balance/rev-lookup to --> 172.17.0.6:53
+HW-SVC (kubernetes service)
+10.106.73.181 --> load balance/ rev-lookup to --> 172.17.0.14:80,172.17.0.15:80
+
+1. POD initiates connection to hw-svc:8888
+    1.1 pod /etc/resolv.conf --> 10.96.0.10
+        1.1.1 pod has no info for 10.96.0.10 so fwds to node
+        1.1.2 node has no info for 10.96.0.10 so would have fwded to its parent
+        1.1.3 mesh n/w does inflight snagging and routes it to kube-proxy
+        1.1.4 kube-proxy works as lb and rev-lookup to 172.17.0.6:53
+        1.1.5 pod-to-pod communication 172.17.0.6:53 does dns lookup and returns
+              ip for hw-svc ie 10.106.73.181
+    1.2 initiates connection to 10.106.73.181:8888
+        1.2.1 pod has no info for 10.106.73.181 so fwds to node
+        1.1.2 node has no info for 10.106.73.181 so would have fwded to its parent
+        1.1.3 mesh n/w does inflight snagging and routes it to kube-proxy
+        1.1.4 kube-proxy works as lb and rev-lookup to 172.17.0.14:80
+        1.1.5 pod-to-pod communication 172.17.0.14:80
