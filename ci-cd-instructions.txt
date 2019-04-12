@@ -1,0 +1,28 @@
+1. login as root on k8smaster
+sudo su
+2. install jdk
+apt-get update 
+apt-get install openjdk-8-jdk
+
+3. install jenkins
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+echo deb https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+apt-get update
+apt-get install jenkins
+systemctl start jenkins
+
+4. Access jenkins through IP:8080
+
+5. add jenkins to docker user group
+usermod -aG docker jenkins
+chmod 777 /var/run/docker.sock
+
+6. copy kubectl config files
+cp -r ~/.kube ~jenkins/.kube
+chown -R jenkins ~jenkins/.kube
+
+7. configure docker credentials @ jenkins
+
+8. configure https://github.com/AdityaSP/docker-devops as pipeline project
+
+9. trigger the build
