@@ -1,0 +1,2 @@
+java-docker-kube container code for a java spring based micro services application. Refer to build_all.sh and deploy.sh to know about docker image creation and k8s deployment.
+The challenge is to build a CI-CD system using jenkins
